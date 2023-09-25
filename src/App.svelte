@@ -6,7 +6,7 @@
   let isGameStarted = false;
   let isGameWon = false;
 
-  function onClickPlayButton() {
+  function onClickStartButton() {
     isGameStarted = true;
   }
 </script>
@@ -20,7 +20,7 @@
       {/each}
     </select>
     <br />
-    <button type="button" on:click={onClickPlayButton}>Play</button>
+    <button type="button" on:click={onClickStartButton}>Start</button>
   {/if}
   {#if isGameStarted}
     <br />

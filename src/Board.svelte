@@ -6,52 +6,77 @@
   export let isGameStarted: boolean;
   export let isGameWon = false;
 
-  const randomCombo = getRandomCombo(comboLength);
-
-  console.log(randomCombo);
-
-  $: console.log(currentCombo);
-
+  let randomCombo = getRandomCombo(comboLength);
   let currentCombo = "";
 
-  function onKeydown(event: KeyboardEvent) {
-    if (event.repeat) {
-      return;
-    }
+  let roundsPassed = 0;
+  let isReadyToStartNewRound = true;
 
-    const downedKey = event.key;
-
-    currentCombo += downedKey;
-
-    // Win
-    if (currentCombo === randomCombo) {
+  $: {
+    if (roundsPassed === 5) {
       isGameStarted = false;
       isGameWon = true;
     }
+  }
 
-    // Lose
-    if (downedKey !== randomCombo[currentCombo.length - 1]) {
-      isGameStarted = false;
-      isGameWon = false;
+  function onClickStartNextRound() {
+    isReadyToStartNewRound = false;
+  }
+
+  function onKeydown(event: KeyboardEvent) {
+    if (!isReadyToStartNewRound || roundsPassed === 0) {
+      if (event.repeat) {
+        return;
+      }
+
+      const downedKey = event.key;
+
+      currentCombo += downedKey;
+
+      // Lose
+      if (downedKey !== randomCombo[currentCombo.length - 1]) {
+        isGameStarted = false;
+        isGameWon = false;
+      }
+
+      // Round Win
+      if (currentCombo === randomCombo) {
+        roundsPassed++;
+
+        isReadyToStartNewRound = true;
+
+        randomCombo = getRandomCombo(comboLength);
+        currentCombo = "";
+      }
     }
   }
 
   function onKeyup() {
     // Lose
-    if (currentCombo !== randomCombo) {
-      isGameStarted = false;
-      isGameWon = false;
+    if (!isReadyToStartNewRound) {
+      if (currentCombo !== randomCombo) {
+        isGameStarted = false;
+        isGameWon = false;
+      }
     }
   }
 </script>
 
 <svelte:window on:keydown|trusted={onKeydown} on:keyup|trusted={onKeyup} />
 
-<div class="keycaps">
-  {#each randomCombo as key}
-    <Keycap {key} />
-  {/each}
-</div>
+{#if !isReadyToStartNewRound || roundsPassed === 0}
+  <div class="keycaps">
+    {#each randomCombo as key}
+      <Keycap {key} />
+    {/each}
+  </div>
+{/if}
+
+{#if isReadyToStartNewRound && roundsPassed !== 0}
+  <button type="button" on:click={onClickStartNextRound}
+    >Start Next Round</button
+  >
+{/if}
 
 <style>
   .keycaps {
