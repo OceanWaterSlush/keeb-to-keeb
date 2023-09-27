@@ -2,7 +2,7 @@
   export let key: string;
 </script>
 
-<div class="keycap">{key}</div>
+<div class="keycap">{key.toUpperCase()}</div>
 
 <style>
   .keycap {

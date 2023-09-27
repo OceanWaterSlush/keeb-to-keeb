@@ -5,6 +5,7 @@
   let comboLength = 2;
   let isGameStarted = false;
   let isGameWon = false;
+  let losingRandomCombo = "";
 
   function onClickStartButton() {
     isGameStarted = true;
@@ -24,10 +25,18 @@
   {/if}
   {#if isGameStarted}
     <br />
-    <Board {comboLength} bind:isGameStarted bind:isGameWon />
+    <Board
+      {comboLength}
+      bind:losingRandomCombo
+      bind:isGameStarted
+      bind:isGameWon
+    />
   {/if}
   {#if !isGameStarted && isGameWon}
     <p>You won!</p>
+  {/if}
+  {#if !isGameStarted && !isGameWon && losingRandomCombo}
+    <p>You lost to {losingRandomCombo.toUpperCase()}!</p>
   {/if}
 </main>
 

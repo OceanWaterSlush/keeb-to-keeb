@@ -5,6 +5,7 @@
   export let comboLength: number;
   export let isGameStarted: boolean;
   export let isGameWon = false;
+  export let losingRandomCombo = "";
 
   let randomCombo = getRandomCombo(comboLength);
   let currentCombo = "";
@@ -12,11 +13,9 @@
   let roundsPassed = 0;
   let isReadyToStartNewRound = true;
 
-  $: {
-    if (roundsPassed === 5) {
-      isGameStarted = false;
-      isGameWon = true;
-    }
+  $: if (roundsPassed === 5) {
+    isGameStarted = false;
+    isGameWon = true;
   }
 
   function onClickStartNextRound() {
@@ -37,6 +36,7 @@
       if (downedKey !== randomCombo[currentCombo.length - 1]) {
         isGameStarted = false;
         isGameWon = false;
+        losingRandomCombo = randomCombo;
       }
 
       // Round Win
@@ -51,12 +51,13 @@
     }
   }
 
-  function onKeyup() {
+  function onKeyup(event: KeyboardEvent) {
     // Lose
-    if (!isReadyToStartNewRound) {
+    if (!isReadyToStartNewRound && event.key !== "Enter") {
       if (currentCombo !== randomCombo) {
         isGameStarted = false;
         isGameWon = false;
+        losingRandomCombo = randomCombo;
       }
     }
   }
