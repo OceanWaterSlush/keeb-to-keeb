@@ -2,13 +2,15 @@
   import { comboLengths } from "./lib/constants";
   import Board from "./Board.svelte";
 
-  let comboLength = 2;
+  let comboLength = comboLengths[0];
   let isGameStarted = false;
   let isGameWon = false;
-  let losingRandomCombo = "";
+  let losingCombo = "";
+  let playedCombos: string[] = [];
 
   function onClickStartButton() {
     isGameStarted = true;
+    playedCombos = [];
   }
 </script>
 
@@ -25,19 +27,27 @@
     </div>
   {/if}
   {#if isGameStarted}
-    <br />
     <Board
       {comboLength}
-      bind:losingRandomCombo
+      bind:losingCombo
       bind:isGameStarted
       bind:isGameWon
+      bind:playedCombos
     />
   {/if}
   {#if !isGameStarted && isGameWon}
     <p>You won!</p>
   {/if}
-  {#if !isGameStarted && !isGameWon && losingRandomCombo}
-    <p>You lost to {losingRandomCombo.toUpperCase()}!</p>
+  {#if !isGameStarted && !isGameWon && losingCombo}
+    <p>You lost to the {losingCombo.toUpperCase()} combo!</p>
+  {/if}
+  {#if playedCombos.length > 0 && !isGameStarted && losingCombo}
+    <p>The combos you have beaten last game:</p>
+    <ul>
+      {#each playedCombos as playedCombo}
+        <li>{playedCombo.toUpperCase()}</li>
+      {/each}
+    </ul>
   {/if}
 </main>
 
@@ -56,5 +66,9 @@
 
   option {
     text-align: center;
+  }
+
+  ul {
+    padding-left: 0;
   }
 </style>

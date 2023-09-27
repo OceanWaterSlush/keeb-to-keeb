@@ -4,8 +4,9 @@
 
   export let comboLength: number;
   export let isGameStarted: boolean;
-  export let isGameWon = false;
-  export let losingRandomCombo = "";
+  export let isGameWon: boolean;
+  export let losingCombo: string;
+  export let playedCombos: string[];
 
   let randomCombo = getRandomCombo(comboLength);
   let currentCombo = "";
@@ -20,7 +21,6 @@
 
   function onClickStartNextRound() {
     isReadyToStartNewRound = false;
-
     randomCombo = getRandomCombo(comboLength);
     currentCombo = "";
   }
@@ -39,14 +39,14 @@
       if (downedKey !== randomCombo[currentCombo.length - 1]) {
         isGameStarted = false;
         isGameWon = false;
-        losingRandomCombo = randomCombo;
+        losingCombo = randomCombo;
       }
 
       // Round Win
       if (currentCombo === randomCombo) {
         roundsPassed++;
-
         isReadyToStartNewRound = true;
+        playedCombos = [...playedCombos, currentCombo];
       }
     }
   }
@@ -57,7 +57,7 @@
       if (currentCombo !== randomCombo) {
         isGameStarted = false;
         isGameWon = false;
-        losingRandomCombo = randomCombo;
+        losingCombo = randomCombo;
       }
     }
   }
@@ -74,7 +74,7 @@
 {/if}
 
 {#if isReadyToStartNewRound && roundsPassed !== 0}
-  <p>Nice, you beat the combo, {currentCombo.toUpperCase()}!</p>
+  <p>Nice, you beat the {currentCombo.toUpperCase()} combo!</p>
   <button type="button" on:click={onClickStartNextRound}
     >Start Next Round</button
   >
