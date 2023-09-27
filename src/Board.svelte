@@ -20,6 +20,9 @@
 
   function onClickStartNextRound() {
     isReadyToStartNewRound = false;
+
+    randomCombo = getRandomCombo(comboLength);
+    currentCombo = "";
   }
 
   function onKeydown(event: KeyboardEvent) {
@@ -44,9 +47,6 @@
         roundsPassed++;
 
         isReadyToStartNewRound = true;
-
-        randomCombo = getRandomCombo(comboLength);
-        currentCombo = "";
       }
     }
   }
@@ -74,6 +74,7 @@
 {/if}
 
 {#if isReadyToStartNewRound && roundsPassed !== 0}
+  <p>Nice, you beat the combo, {currentCombo.toUpperCase()}!</p>
   <button type="button" on:click={onClickStartNextRound}
     >Start Next Round</button
   >

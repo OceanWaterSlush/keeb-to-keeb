@@ -14,14 +14,15 @@
 
 <main>
   {#if !isGameStarted}
-    <label for="comboLength">Select Length of Combos:</label>
-    <select name="comboLength" bind:value={comboLength}>
-      {#each comboLengths as comboLength}
-        <option value={comboLength}>{comboLength}</option>
-      {/each}
-    </select>
-    <br />
-    <button type="button" on:click={onClickStartButton}>Start</button>
+    <div class="gameConfiguration">
+      <label for="comboLength">Select Length of Combos:</label>
+      <select name="comboLength" bind:value={comboLength}>
+        {#each comboLengths as comboLength}
+          <option value={comboLength}>{comboLength}</option>
+        {/each}
+      </select>
+      <button type="button" on:click={onClickStartButton}>Start</button>
+    </div>
   {/if}
   {#if isGameStarted}
     <br />
@@ -41,4 +42,19 @@
 </main>
 
 <style>
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gameConfiguration {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  option {
+    text-align: center;
+  }
 </style>
