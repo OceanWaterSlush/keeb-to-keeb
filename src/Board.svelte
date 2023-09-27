@@ -12,7 +12,7 @@
   let currentCombo = "";
 
   let roundsPassed = 0;
-  let isReadyToStartNewRound = true;
+  let isReadyToStartNewRound = false;
 
   $: if (roundsPassed === 5) {
     isGameStarted = false;
@@ -54,11 +54,9 @@
   function onKeyup(event: KeyboardEvent) {
     // Lose
     if (!isReadyToStartNewRound && event.key !== "Enter") {
-      if (currentCombo !== randomCombo) {
-        isGameStarted = false;
-        isGameWon = false;
-        losingCombo = randomCombo;
-      }
+      isGameStarted = false;
+      isGameWon = false;
+      losingCombo = randomCombo;
     }
   }
 </script>
