@@ -1,6 +1,7 @@
 <script lang="ts">
   import { comboLengths } from "./lib/constants";
   import Board from "./Board.svelte";
+  import "./styles.css";
 
   let comboLength = comboLengths[0];
   let isGameStarted = false;
@@ -13,6 +14,13 @@
     playedCombos = [];
   }
 </script>
+
+<nav>
+  <a href="/">Keeb To Keeb</a>
+  <div class="links">
+    <a href="/login">Login</a>
+  </div>
+</nav>
 
 <main>
   {#if !isGameStarted}
@@ -27,13 +35,15 @@
     </div>
   {/if}
   {#if isGameStarted}
-    <Board
-      {comboLength}
-      bind:losingCombo
-      bind:isGameStarted
-      bind:isGameWon
-      bind:playedCombos
-    />
+    <div class="board">
+      <Board
+        {comboLength}
+        bind:losingCombo
+        bind:isGameStarted
+        bind:isGameWon
+        bind:playedCombos
+      />
+    </div>
   {/if}
   {#if !isGameStarted && isGameWon}
     <p>You won!</p>
@@ -42,7 +52,7 @@
     <p>You lost to the {losingCombo.toUpperCase()} combo!</p>
   {/if}
   {#if playedCombos.length > 0 && !isGameStarted && losingCombo}
-    <p>The combos you have beaten last game:</p>
+    <p>The combos you have just beaten:</p>
     <ul>
       {#each playedCombos as playedCombo}
         <li>{playedCombo.toUpperCase()}</li>
@@ -51,11 +61,36 @@
   {/if}
 </main>
 
+<footer>
+  <p>Created by Tommy Son</p>
+</footer>
+
 <style>
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    height: 3rem;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .links {
+    display: flex;
+    gap: 1rem;
+  }
+
   main {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    padding-top: 10rem;
   }
 
   .gameConfiguration {
@@ -70,5 +105,13 @@
 
   ul {
     padding-left: 0;
+  }
+
+  footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: auto;
   }
 </style>

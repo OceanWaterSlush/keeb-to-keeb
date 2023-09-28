@@ -1,0 +1,19 @@
+body {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
+
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100vh;
+}

@@ -87,16 +87,24 @@
 {/if}
 
 {#if isReadyToStartNewRound && roundsPassed !== 0}
-  <p>Nice, you beat the {currentCombo.toUpperCase()} combo!</p>
-  <button type="button" on:click={onClickStartNextRound}
-    >Start Next Round</button
-  >
+  <div class="roundPassed">
+    <p>Nice, you beat the {currentCombo.toUpperCase()} combo!</p>
+    <button type="button" on:click={onClickStartNextRound}
+      >Start Next Round</button
+    >
+  </div>
 {/if}
 
 <style>
   .keycaps {
     display: flex;
-    flex-direction: row;
+    gap: 5px;
+    /* flex-wrap: wrap; */
+  }
+
+  .roundPassed {
+    display: flex;
+    flex-direction: column;
     gap: 5px;
     flex-wrap: wrap;
   }
