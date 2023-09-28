@@ -18,6 +18,9 @@
 <nav>
   <a href="/">Keeb To Keeb</a>
   <div class="links">
+    <a href="/">Play</a>
+    <a href="/about">About</a>
+    <a href="/updates">Updates</a>
     <a href="/login">Login</a>
   </div>
 </nav>
