@@ -5,7 +5,7 @@ export function getRandomCombo(comboLength: number) {
   let randomCombo = "";
 
   while (randomCombo.length !== comboLength) {
-    let randomIndex = Math.floor(Math.random() * (validKeys.length - 1) + 0);
+    let randomIndex = Math.floor(Math.random() * validKeys.length + 0);
 
     randomCombo += validKeys[randomIndex];
 
@@ -13,4 +13,10 @@ export function getRandomCombo(comboLength: number) {
   }
 
   return randomCombo;
+}
+
+export function playAudio(path: string) {
+  var audio = new Audio(path);
+
+  audio.play();
 }

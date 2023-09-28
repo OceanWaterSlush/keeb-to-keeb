@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { getRandomCombo } from "./lib/helpers";
+  import { getRandomCombo, playAudio } from "./lib/helpers";
+  import { keydownAudioPaths } from "./lib/constants";
   import Keycap from "./Keycap.svelte";
 
   export let comboLength: number;
@@ -45,6 +46,12 @@
 
         return;
       }
+
+      const randomKeydownAudioPathIndex = Math.floor(
+        Math.random() * keydownAudioPaths.length + 0
+      );
+
+      playAudio(keydownAudioPaths[randomKeydownAudioPathIndex]);
 
       keycapActiveStates[randomCombo.indexOf(downedKey)] = true;
 
