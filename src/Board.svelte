@@ -14,6 +14,8 @@
   let roundsPassed = 0;
   let isReadyToStartNewRound = false;
 
+  let keycapActiveStates = new Array(comboLength).fill(false);
+
   $: if (roundsPassed === 5) {
     isGameStarted = false;
     isGameWon = true;
@@ -40,9 +42,12 @@
         isGameStarted = false;
         isGameWon = false;
         losingCombo = randomCombo;
+
+        return;
       }
 
-      // Round Win
+      keycapActiveStates[randomCombo.indexOf(downedKey)] = true;
+
       if (currentCombo === randomCombo) {
         roundsPassed++;
         isReadyToStartNewRound = true;
@@ -58,6 +63,9 @@
       isGameWon = false;
       losingCombo = randomCombo;
     }
+    const downedKey = event.key;
+
+    keycapActiveStates[randomCombo.indexOf(downedKey)] = false;
   }
 </script>
 
@@ -65,8 +73,8 @@
 
 {#if !isReadyToStartNewRound || roundsPassed === 0}
   <div class="keycaps">
-    {#each randomCombo as key}
-      <Keycap {key} />
+    {#each randomCombo as key, index}
+      <Keycap {key} isActive={keycapActiveStates[index]} />
     {/each}
   </div>
 {/if}

@@ -1,9 +1,13 @@
 <script lang="ts">
   export let key: string;
+  export let isActive: boolean;
 </script>
 
-<div class="keycap">
-  <span class="key">{key.toUpperCase()}</span>
+<div class={isActive ? "keycap keycap-active" : "keycap"}>
+  <span class="keycap-lining" />
+  <span class={isActive ? "key key-active" : "key"}>
+    {key.toUpperCase()}
+  </span>
   <div class="angle-shadow left-top top-section" />
   <div class="angle-shadow right-top top-section" />
   <div class="angle-shadow left-bottom bottom-section" />
@@ -11,6 +15,23 @@
 </div>
 
 <style>
+  .keycap-active {
+    box-shadow: inset 0 -5rem 3.5rem #857e71;
+
+    transform: translateY(4px);
+  }
+
+  .key-active {
+    width: 6.5rem;
+    height: 6.5rem;
+
+    font-size: 4.5rem;
+
+    box-shadow: 0 -5rem 5rem 1.5rem #f6e5d6, inset 0rem 0.5rem 1rem #baaf9e;
+
+    transform: translateY(4px);
+  }
+
   .keycap {
     display: flex;
     justify-content: center;
@@ -31,26 +52,7 @@
     transition: 0.1s;
   }
 
-  .keycap::before {
-    content: "";
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 50;
-
-    width: 90%;
-    height: 90%;
-
-    border: 0.5rem solid #d9ccbc;
-    border-radius: 1rem;
-  }
-
-  .keycap:active {
-    box-shadow: inset 0 -5rem 3.5rem #857e71;
-  }
-
-  .keycap .key {
+  .key {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -81,20 +83,19 @@
     -o-user-select: none;
   }
 
-  .keycap:active .key {
-    width: 6.5rem;
-    height: 6.5rem;
+  .keycap-lining {
+    content: "";
 
-    font-size: 4.5rem;
-  }
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 50;
 
-  .keycap:active .key {
-    width: 6.5rem;
-    height: 6.5rem;
+    width: 90%;
+    height: 90%;
 
-    font-size: 4.5rem;
-
-    box-shadow: 0 -5rem 5rem 1.5rem #f6e5d6, inset 0rem 0.5rem 1rem #baaf9e;
+    border: 0.5rem solid #d9ccbc;
+    border-radius: 1rem;
   }
 
   .angle-shadow {
