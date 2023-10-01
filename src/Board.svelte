@@ -20,6 +20,7 @@
   $: if (roundsPassed === 5) {
     isGameStarted = false;
     isGameWon = true;
+    playedCombos = [];
   }
 
   function onClickStartNextRound() {
@@ -99,13 +100,12 @@
   .keycaps {
     display: flex;
     gap: 5px;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
   }
 
   .roundPassed {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    flex-wrap: wrap;
   }
 </style>
