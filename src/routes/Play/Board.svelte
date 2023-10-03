@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { getRandomCombo, playAudio } from "./lib/helpers";
-  import { keydownAudioPaths } from "./lib/constants";
+  import { getRandomCombo, playAudio } from "../../lib/helpers";
+  import { keydownAudioPaths } from "../../lib/constants";
   import Keycap from "./Keycap.svelte";
 
   export let comboLength: number;
@@ -79,22 +79,24 @@
 
 <svelte:window on:keydown|trusted={onKeydown} on:keyup|trusted={onKeyup} />
 
-{#if !isReadyToStartNewRound || roundsPassed === 0}
-  <div class="keycaps">
-    {#each randomCombo as key, index}
-      <Keycap {key} isActive={keycapActiveStates[index]} />
-    {/each}
-  </div>
-{/if}
+<div>
+  {#if !isReadyToStartNewRound || roundsPassed === 0}
+    <div class="keycaps">
+      {#each randomCombo as key, index}
+        <Keycap {key} isActive={keycapActiveStates[index]} />
+      {/each}
+    </div>
+  {/if}
 
-{#if isReadyToStartNewRound && roundsPassed !== 0}
-  <div class="roundPassed">
-    <p>Nice, you beat the {currentCombo.toUpperCase()} combo!</p>
-    <button type="button" on:click={onClickStartNextRound}
-      >Start Next Round</button
-    >
-  </div>
-{/if}
+  {#if isReadyToStartNewRound && roundsPassed !== 0}
+    <div class="roundPassed">
+      <p>Nice, you beat the {currentCombo.toUpperCase()} combo!</p>
+      <button type="button" on:click={onClickStartNextRound}
+        >Start Next Round</button
+      >
+    </div>
+  {/if}
+</div>
 
 <style>
   .keycaps {
