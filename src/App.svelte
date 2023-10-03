@@ -1,11 +1,13 @@
 <script lang="ts">
-  import Router from "svelte-spa-router";
+  import Router, { location } from "svelte-spa-router";
+  import { validateUrl } from "./lib/helpers";
   import About from "./routes/About.svelte";
   import Account from "./routes/Account.svelte";
   import Auth from "./routes/Auth.svelte";
   import Home from "./routes/Home.svelte";
   import Play from "./routes/Play/Play.svelte";
   import Updates from "./routes/Updates.svelte";
+  import NotFound from "./routes/NotFound.svelte";
   import "./styles.css";
 
   const routes = {
@@ -15,26 +17,31 @@
     "/": Home,
     "/play": Play,
     "/updates": Updates,
+    "*": NotFound,
   };
 </script>
 
-<nav>
-  <a href="/">Keeb To Keeb</a>
-  <div class="links">
-    <a href="#/play">Play</a>
-    <a href="#/about">About</a>
-    <a href="#/updates">Updates</a>
-    <a href="#/login">Login</a>
-  </div>
-</nav>
+{#if validateUrl($location)}
+  <nav>
+    <a href="/">Keeb To Keeb</a>
+    <div class="links">
+      <a href="#/play">Play</a>
+      <a href="#/about">About</a>
+      <a href="#/updates">Updates</a>
+      <a href="#/login">Login</a>
+    </div>
+  </nav>
+{/if}
 
 <main>
   <Router {routes} />
 </main>
 
-<footer>
-  <p>Created by Tommy Son</p>
-</footer>
+{#if validateUrl($location)}
+  <footer>
+    <p>Created by Tommy Son</p>
+  </footer>
+{/if}
 
 <style>
   nav {

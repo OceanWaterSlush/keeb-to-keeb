@@ -1,3 +1,5 @@
+import { validRoutes } from "./constants";
+
 export function getRandomCombo(comboLength: number) {
   const validKeysCombined = "1234567890qwertyuiopasdfghjklzxcvbnm";
   const validKeys = validKeysCombined.split("");
@@ -19,4 +21,8 @@ export function playAudio(path: string) {
   var audio = new Audio(path);
 
   audio.play();
+}
+
+export function validateUrl(url: string) {
+  return validRoutes.includes(url);
 }

@@ -7,3 +7,12 @@ export const keydownAudioPaths = [
   "src/assets/audio/keydown/Woo.mp3",
   "src/assets/audio/keydown/Wow.mp3",
 ];
+
+export const validRoutes = [
+  "/about",
+  "/account",
+  "/login",
+  "/",
+  "/play",
+  "/updates",
+];
