@@ -1,47 +1,58 @@
 <script lang="ts">
-  import Router, { location } from "svelte-spa-router";
-  import { validateUrl } from "./lib/helpers";
+  import { onMount } from "svelte";
+  import { supabase } from "./supabaseClient";
+  import type { AuthSession } from "@supabase/supabase-js";
+  import { Router, Link, Route } from "svelte-routing";
   import About from "./routes/About.svelte";
   import Account from "./routes/Account.svelte";
-  import Auth from "./routes/Auth.svelte";
   import Home from "./routes/Home.svelte";
   import Play from "./routes/Play/Play.svelte";
   import Updates from "./routes/Updates.svelte";
   import NotFound from "./routes/NotFound.svelte";
   import "./styles.css";
 
-  const routes = {
-    "/about": About,
-    "/account": Account,
-    "/login": Auth,
-    "/": Home,
-    "/play": Play,
-    "/updates": Updates,
-    "*": NotFound,
-  };
+  export let url = "";
+
+  let session: AuthSession | null;
+
+  onMount(async () => {
+    await supabase.auth.getSession().then(({ data }) => {
+      session = data.session;
+    });
+
+    await supabase.auth.onAuthStateChange((_event, s) => {
+      session = s;
+    });
+  });
 </script>
 
-{#if validateUrl($location)}
+<Router {url}>
   <nav>
-    <a href="/">Keeb To Keeb</a>
+    <Link to="/">Keeb To Keeb</Link>
     <div class="links">
-      <a href="#/play">Play</a>
-      <a href="#/about">About</a>
-      <a href="#/updates">Updates</a>
-      <a href="#/login">Login</a>
+      <Link to="/play">Play</Link>
+      <Link to="/about">About</Link>
+      <Link to="/updates">Updates</Link>
+      {#if session}
+        <Link to="/account">Account</Link>
+      {:else}
+        <Link to="/account">Login</Link>
+      {/if}
     </div>
   </nav>
-{/if}
 
-<main>
-  <Router {routes} />
-</main>
+  <main>
+    <Route path="/" component={Home} />
+    <Route path="/play" component={Play} />
+    <Route path="/about" component={About} />
+    <Route path="/updates" component={Updates} />
+    <Route path="/account" component={Account} />
+  </main>
 
-{#if validateUrl($location)}
   <footer>
     <p>Created by Tommy Son</p>
   </footer>
-{/if}
+</Router>
 
 <style>
   nav {
